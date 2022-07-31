@@ -1,15 +1,10 @@
 ﻿using FoodBooking.Data;
 using FoodBooking.Data.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FoodBooking.Reponsitory.Restaurants
 {
-    public class RestaurantRepository : BaseReponsitory, IRestaurantRepository
+    public class RestaurantRepository : BaseReponsitory<Restaurant>, IRestaurantRepository
     {
         public RestaurantRepository(FoodBookingContext context) : base(context)
         {
@@ -21,11 +16,6 @@ namespace FoodBooking.Reponsitory.Restaurants
             return await _context.Restaurants.FirstOrDefaultAsync(r => r.Name == name);
         }
 
-        public async Task<Restaurant?> FindByIdAsync(Guid id)
-        {
-            return await _context.Restaurants.FirstOrDefaultAsync(r => r.Id == id);
-        }
-
         public async Task<List<Restaurant>> Search(string keyword, int page, int record)
         {
             return await _context.Restaurants.AsNoTracking()
@@ -35,28 +25,5 @@ namespace FoodBooking.Reponsitory.Restaurants
                 .Take(record)
                 .ToListAsync();
         }
-
-        public async Task<bool> CreateAsync(Restaurant newRestaurant)
-        {
-            await _context.AddAsync(newRestaurant);
-            if (await _context.SaveChangesAsync() > 0)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        public async Task<bool> UpdateAsync(Restaurant updateRestaurant)
-        {
-
-            await _context.Update(updateRestaurant);
-            if (await _context.SaveChangesAsync()>0)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        
     }
 }

@@ -1,5 +1,6 @@
 using AutoMapper;
 using FoodBooking.Data;
+using FoodBooking.Data.Models.Middleware;
 using FoodBooking.Mapper;
 using FoodBooking.Reponsitory.Restaurants;
 using MediatR;
@@ -20,7 +21,7 @@ builder.Services.AddDbContext<FoodBookingContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("FoodBooking")));
 
 //Config AutoMapper
-builder.Services.AddSingleton<IMapper>(sp =>
+builder.Services.AddScoped<IMapper>(sp =>
 {
     return new Mapper(AutoMapperConfig.RegisterMappings());
 });
@@ -46,5 +47,14 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+else
+{
+    app.UseMiddleware<ExceptionMiddleware>();
+}
 
 app.Run();

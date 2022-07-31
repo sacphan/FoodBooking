@@ -2,11 +2,9 @@
 
 namespace FoodBooking.Reponsitory.Restaurants
 {
-    public interface IRestaurantRepository
+    public interface IRestaurantRepository : IBaseReponsitory<Restaurant>
     {
         Task<List<Restaurant>> Search(string keyword, int page, int record);
         Task<Restaurant?> FindByNameAsync(string name);
-        Task<Restaurant?> FindByIdAsync(Guid id);
-        Task<bool> CreateAsync(Restaurant newRestaurant);
     }
 }

@@ -1,10 +1,11 @@
-﻿using FoodBooking.Reponsitory.Restaurants;
+﻿using FoodBooking.Data.Models.Exceptions;
+using FoodBooking.Reponsitory.Restaurants;
 using MediatR;
 using System.ComponentModel.DataAnnotations;
 
 namespace FoodBooking.Features.Restaurants.Commands
 {
-    public class UpdateRestaurantRequest:IRequest<bool>
+    public class UpdateRestaurantRequest : IRequest<bool>
     {
         [Required]
         public Guid Id { get; set; }
@@ -16,7 +17,7 @@ namespace FoodBooking.Features.Restaurants.Commands
         public string? Title { get; set; }
     }
 
-    public class UpdateRestaurantRequestHandler:IRequestHandler<UpdateRestaurantRequest,bool>
+    public class UpdateRestaurantRequestHandler : IRequestHandler<UpdateRestaurantRequest, bool>
     {
         private readonly IRestaurantRepository _restaurantRepository;
         public UpdateRestaurantRequestHandler(IRestaurantRepository restaurantRepository)
@@ -28,9 +29,26 @@ namespace FoodBooking.Features.Restaurants.Commands
             var restaurantExits = await _restaurantRepository.FindByIdAsync(request.Id);
             if (restaurantExits != null)
             {
-                return await _restaurantRepository.CreateAsync(_mapper.Map<Restaurant>(request));
+                var nameExits = await _restaurantRepository.FindByNameAsync(request.Name);
+                if (nameExits == null)
+                {
+                    restaurantExits.Title = request.Title;
+                    restaurantExits.Name = request.Name;
+                    restaurantExits.Description = request.Description;
+                    _restaurantRepository.Update(restaurantExits);
+                    if (await _restaurantRepository.SaveChangesAsync() >= 0)
+                    {
+                        return true;
+                    }
+                    throw new MediatorException(ExceptionType.Error, "Error update this restaurant");
+                }
+                else
+                {
+                    throw new MediatorException(ExceptionType.Error, "the name update is already exits");
+                }
+
             }
-            throw new BadHttpRequestException("This restaurant didn't find");
+            throw new MediatorException(ExceptionType.Error, "This restaurant didn't find");
         }
     }
 }

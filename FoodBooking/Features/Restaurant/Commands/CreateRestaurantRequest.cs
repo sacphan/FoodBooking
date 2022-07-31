@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FoodBooking.Data.Entities;
+using FoodBooking.Data.Models.Exceptions;
 using FoodBooking.Reponsitory.Restaurants;
 using MediatR;
 using System.ComponentModel.DataAnnotations;
@@ -15,8 +16,8 @@ namespace FoodBooking.Features.Restaurants.Commands
         [Required]
         public string? Title { get; set; }
         public Guid? ImageId { get; set; }
-    }   
-        
+    }
+
 
     public class CreateRestaurantRequestHandler : IRequestHandler<CreateRestaurantsRequest, bool>
     {
@@ -30,12 +31,17 @@ namespace FoodBooking.Features.Restaurants.Commands
         }
         public async Task<bool> Handle(CreateRestaurantsRequest request, CancellationToken cancellationToken)
         {
-            var restaurantExits =await _restaurantRepository.FindByNameAsync(request.Name);
+            var restaurantExits = await _restaurantRepository.FindByNameAsync(request.Name);
             if (restaurantExits == null)
             {
-                return await _restaurantRepository.CreateAsync(_mapper.Map<Restaurant>(request));
+                _restaurantRepository.Create(_mapper.Map<Restaurant>(request));
+                if (await _restaurantRepository.SaveChangesAsync() > 0)
+                {
+                    return true;
+                }
+                throw new MediatorException(ExceptionType.Error, "Error create this restaurant");
             }
-            throw new BadHttpRequestException("This restaurant is exits already");
+            throw new MediatorException(ExceptionType.Error, "This restaurant is exits already");
         }
     }
 }
