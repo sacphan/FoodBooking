@@ -17,6 +17,26 @@
       "applicationUrl": "https://localhost:7167;http://localhost:5167",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "FoodBooking-Staging": {
+        "commandName": "Project",
+        "dotnetRunMessages": true,
+        "launchBrowser": true,
+        "applicationUrl": "https://localhost:7152;http://localhost:5167",
+        "environmentVariables": {
+          "ASPNETCORE_ENVIRONMENT": "Staging",
+          "ASPNETCORE_DETAILEDERRORS": "1",
+          "ASPNETCORE_SHUTDOWNTIMEOUTSECONDS": "3"
+        }
+      },
+      "FoodBooking-Production": {
+        "commandName": "Project",
+        "dotnetRunMessages": true,
+        "launchBrowser": true,
+        "applicationUrl": "https://localhost:7152;http://localhost:5167",
+        "environmentVariables": {
+          "ASPNETCORE_ENVIRONMENT": "Production"
+        }
       }
     },
     "IIS Express": {
