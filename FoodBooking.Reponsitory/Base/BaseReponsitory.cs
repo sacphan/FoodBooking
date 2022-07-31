@@ -1,7 +1,7 @@
 ﻿using FoodBooking.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace FoodBooking.Reponsitory
+namespace FoodBooking.Reponsitory.Base
 {
     public abstract class BaseReponsitory<T> : IBaseReponsitory<T> where T : class
     {

@@ -1,5 +1,6 @@
 ﻿using FoodBooking.Data;
 using FoodBooking.Data.Entities;
+using FoodBooking.Reponsitory.Base;
 using Microsoft.EntityFrameworkCore;
 
 namespace FoodBooking.Reponsitory.Restaurants

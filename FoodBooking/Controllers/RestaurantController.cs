@@ -39,10 +39,8 @@ public class RestaurantController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<IActionResult> Create(CreateRestaurantsRequest createRestaurantsRequest)
     {
-
         await _mediator.Send(createRestaurantsRequest);
         return StatusCode(201);
-
     }
 
     [HttpPut(Name = "Update")]
@@ -52,10 +50,8 @@ public class RestaurantController : ControllerBase
 
     public async Task<IActionResult> Update(UpdateRestaurantRequest createRestaurantsRequest)
     {
-
         await _mediator.Send(createRestaurantsRequest);
         return Ok();
-
     }
 
     [HttpDelete(Name = "Delete")]

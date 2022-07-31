@@ -1,4 +1,4 @@
-﻿namespace FoodBooking.Reponsitory
+﻿namespace FoodBooking.Reponsitory.Base
 {
     public interface IBaseReponsitory<T> where T : class
     {

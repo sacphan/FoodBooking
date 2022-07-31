@@ -1,4 +1,5 @@
 ﻿using FoodBooking.Data.Entities;
+using FoodBooking.Reponsitory.Base;
 
 namespace FoodBooking.Reponsitory.Restaurants
 {
