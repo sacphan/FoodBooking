@@ -15,6 +15,17 @@ namespace FoodBooking.Reponsitory.Restaurants
         {
 
         }
+
+        public async Task<Restaurant?> FindByNameAsync(string name)
+        {
+            return await _context.Restaurants.FirstOrDefaultAsync(r => r.Name == name);
+        }
+
+        public async Task<Restaurant?> FindByIdAsync(Guid id)
+        {
+            return await _context.Restaurants.FirstOrDefaultAsync(r => r.Id == id);
+        }
+
         public async Task<List<Restaurant>> Search(string keyword, int page, int record)
         {
             return await _context.Restaurants.AsNoTracking()
@@ -35,9 +46,17 @@ namespace FoodBooking.Reponsitory.Restaurants
             return false;
         }
 
-        public async Task<Restaurant?> FindByNameAsync(string name)
+        public async Task<bool> UpdateAsync(Restaurant updateRestaurant)
         {
-            return await _context.Restaurants.FirstOrDefaultAsync(r => r.Name == name);
+
+            await _context.Update(updateRestaurant);
+            if (await _context.SaveChangesAsync()>0)
+            {
+                return true;
+            }
+            return false;
         }
+
+        
     }
 }
