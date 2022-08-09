@@ -22,9 +22,18 @@ namespace FoodBooking.Reponsitory.Restaurants
             return await _context.Restaurants.AsNoTracking()
                 .Where(r => r.Name.ToLower()
                 .Contains(keyword) || keyword == null)
+                .OrderByDescending(x => x.Id)
                 .Skip((page - 1) * record)
                 .Take(record)
                 .ToListAsync();
+        }
+
+        public async Task<int> Count(string keyword, int page, int record)
+        {
+            return await _context.Restaurants.AsNoTracking()
+                .Where(r => r.Name.ToLower()
+                .Contains(keyword) || keyword == null)
+                .CountAsync();
         }
     }
 }

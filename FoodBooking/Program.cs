@@ -9,6 +9,19 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:4200")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod(); ;
+                      });
+});
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -31,7 +44,7 @@ builder.Services.AddScoped<IMapper>(sp =>
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 
 //Config DI Repo
-builder.Services.AddScoped<IRestaurantRepository,RestaurantRepository>();
+builder.Services.AddScoped<IRestaurantRepository, RestaurantRepository>();
 
 var app = builder.Build();
 
@@ -44,17 +57,21 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors(MyAllowSpecificOrigins);
+
+
 app.UseAuthorization();
 
 app.MapControllers();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseDeveloperExceptionPage();
-}
-else
-{
-    app.UseMiddleware<ExceptionMiddleware>();
-}
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseDeveloperExceptionPage();
+//}
+//else
+//{
+//    app.UseMiddleware<ExceptionMiddleware>();
+//}
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.Run();

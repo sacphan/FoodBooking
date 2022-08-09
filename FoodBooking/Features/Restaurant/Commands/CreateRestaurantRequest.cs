@@ -11,7 +11,6 @@ namespace FoodBooking.Features.Restaurants.Commands
     {
         [Required]
         public string? Name { get; set; }
-        [Required]
         public string? Description { get; set; }
         [Required]
         public string? Title { get; set; }

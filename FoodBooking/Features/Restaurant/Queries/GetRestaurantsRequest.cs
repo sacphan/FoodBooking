@@ -4,21 +4,28 @@ using MediatR;
 
 namespace FoodBooking.Features.Restaurants.Queries
 {
-    public class GetRestaurantsRequest : IRequest<List<GetRestaurantsReponse>>
+    public class GetRestaurantsRequest : IRequest<GetRestaurantsReponse>
     {
-        public string KeyWord { get; set; } = string.Empty;
+        public string? KeyWord { get; set; } = string.Empty;
         public int Page { get; set; } = 1;
-        public int Record { get; set; } = 10;
+        public int Record { get; set; } = 5;
     }
-    public class GetRestaurantsReponse
+
+    public class RestaurantDto
     {
         public string? Name { get; set; }
         public string? Description { get; set; }
         public string? Title { get; set; }
-        public Guid? ImageId { get; set; }
+    }
+    public class GetRestaurantsReponse
+    {
+        public List<RestaurantDto>? Restaurants { get; set; }
+        public int Page { get; set; }
+        public int TotalRow { get; set; }
+        public int TotalPage { get; set; }
     }
 
-    public class GetRestaurantsRequestHandler : IRequestHandler<GetRestaurantsRequest, List<GetRestaurantsReponse>>
+    public class GetRestaurantsRequestHandler : IRequestHandler<GetRestaurantsRequest, GetRestaurantsReponse>
     {
         private readonly IRestaurantRepository _restaurantRepository;
         private readonly IMapper _mapper;
@@ -27,9 +34,17 @@ namespace FoodBooking.Features.Restaurants.Queries
             _restaurantRepository = restaurantRepository;
             _mapper = mapper;
         }
-        public async Task<List<GetRestaurantsReponse>> Handle(GetRestaurantsRequest request, CancellationToken cancellationToken)
+        public async Task<GetRestaurantsReponse> Handle(GetRestaurantsRequest request, CancellationToken cancellationToken)
         {
-            return _mapper.Map<List<GetRestaurantsReponse>>(await _restaurantRepository.Search(request.KeyWord, request.Page, request.Record));
+            var restaurants = _mapper.Map<List<RestaurantDto>>(await _restaurantRepository.Search(request.KeyWord, request.Page, request.Record));
+            var totalRow = 0;
+            var totalPage = 0;
+            if (restaurants.Any())
+            {
+                totalRow = await _restaurantRepository.Count(request.KeyWord, request.Page, request.Record);
+                totalPage = (int)Math.Ceiling((float)totalRow / request.Record);
+            }
+            return new GetRestaurantsReponse() { Page = request.Page, Restaurants = restaurants, TotalPage = totalPage, TotalRow = totalRow };
         }
     }
 
