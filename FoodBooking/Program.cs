@@ -16,7 +16,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.WithOrigins("http://localhost:4200")
+                          policy.WithOrigins("http://localhost:3000")
                             .AllowAnyHeader()
                             .AllowAnyMethod(); ;
                       });
@@ -45,6 +45,10 @@ builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 
 //Config DI Repo
 builder.Services.AddScoped<IRestaurantRepository, RestaurantRepository>();
+
+builder.Services.AddControllers().AddNewtonsoftJson();
+
+
 
 var app = builder.Build();
 

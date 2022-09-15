@@ -7,14 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
 [ApiController]
-[Route("[controller]")]
-public class RestaurantController : ControllerBase
+public class RestaurantController : BaseController
 {
-    private readonly IMediator _mediator;
-
-    public RestaurantController(IMediator mediator)
+    public RestaurantController(IMediator mediator) : base(mediator)
     {
-        _mediator = mediator;
     }
 
     [HttpGet(Name = "Search")]

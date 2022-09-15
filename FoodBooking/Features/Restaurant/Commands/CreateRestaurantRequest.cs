@@ -12,8 +12,6 @@ namespace FoodBooking.Features.Restaurants.Commands
         [Required]
         public string? Name { get; set; }
         public string? Description { get; set; }
-        [Required]
-        public string? Title { get; set; }
         public Guid? ImageId { get; set; }
     }
 

@@ -13,8 +13,6 @@ namespace FoodBooking.Features.Restaurants.Commands
         public string? Name { get; set; }
         [Required]
         public string? Description { get; set; }
-        [Required]
-        public string? Title { get; set; }
     }
 
     public class UpdateRestaurantRequestHandler : IRequestHandler<UpdateRestaurantRequest, bool>
@@ -32,7 +30,6 @@ namespace FoodBooking.Features.Restaurants.Commands
                 var nameExits = await _restaurantRepository.FindByNameAsync(request.Name);
                 if (nameExits == null)
                 {
-                    restaurantExits.Title = request.Title;
                     restaurantExits.Name = request.Name;
                     restaurantExits.Description = request.Description;
                     _restaurantRepository.Update(restaurantExits);
@@ -44,7 +41,11 @@ namespace FoodBooking.Features.Restaurants.Commands
                 }
                 else
                 {
-                    throw new MediatorException(ExceptionType.Error, "the name update is already exits");
+                    if (nameExits.Id!=request.Id)
+                    {
+                        throw new MediatorException(ExceptionType.Error, "the name update is already exits");
+                    }
+                    return true;
                 }
 
             }

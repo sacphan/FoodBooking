@@ -19,9 +19,11 @@ namespace FoodBooking.Reponsitory.Restaurants
 
         public async Task<List<Restaurant>> Search(string keyword, int page, int record)
         {
+            var keySeach = keyword.ToLower();
             return await _context.Restaurants.AsNoTracking()
-                .Where(r => r.Name.ToLower()
-                .Contains(keyword) || keyword == null)
+                .Where(r => r.Name.ToLower().Contains(keySeach)
+                || r.Description.ToLower().Contains(keySeach)
+                || keyword == null)
                 .OrderByDescending(x => x.Id)
                 .Skip((page - 1) * record)
                 .Take(record)
