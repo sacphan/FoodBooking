@@ -60,5 +60,7 @@ public class RestaurantController : BaseController
         await _mediator.Send(deleteRestaurantRequest);
         return Ok();
     }
+
+
 }
 

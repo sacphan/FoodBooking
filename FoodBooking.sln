@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodBooking", "FoodBooking\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodBooking.Data", "FoodBooking.Data\FoodBooking.Data.csproj", "{B8701ECC-CDF2-4248-BC76-7820D0C35513}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodBooking.Reponsitory", "FoodBooking.Reponsitory\FoodBooking.Reponsitory.csproj", "{60A3918D-2EA3-479F-A9E2-728FCC39B575}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodBooking.Reponsitory", "FoodBooking.Reponsitory\FoodBooking.Reponsitory.csproj", "{60A3918D-2EA3-479F-A9E2-728FCC39B575}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodBooking.Core", "FoodBooking.Core\FoodBooking.Core.csproj", "{F5C86A60-594C-4191-9073-B388B47D996F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{60A3918D-2EA3-479F-A9E2-728FCC39B575}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60A3918D-2EA3-479F-A9E2-728FCC39B575}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60A3918D-2EA3-479F-A9E2-728FCC39B575}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5C86A60-594C-4191-9073-B388B47D996F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5C86A60-594C-4191-9073-B388B47D996F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5C86A60-594C-4191-9073-B388B47D996F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5C86A60-594C-4191-9073-B388B47D996F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

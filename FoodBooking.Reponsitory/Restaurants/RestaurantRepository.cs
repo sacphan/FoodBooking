@@ -37,5 +37,6 @@ namespace FoodBooking.Reponsitory.Restaurants
                 .Contains(keyword) || keyword == null)
                 .CountAsync();
         }
+
     }
 }

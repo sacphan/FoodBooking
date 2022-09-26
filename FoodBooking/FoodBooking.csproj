@@ -22,11 +22,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FoodBooking.Core\FoodBooking.Core.csproj" />
     <ProjectReference Include="..\FoodBooking.Reponsitory\FoodBooking.Reponsitory.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Middleware\" />
+    <Folder Include="Public\Images\Restaurant\" />
   </ItemGroup>
 
 </Project>
