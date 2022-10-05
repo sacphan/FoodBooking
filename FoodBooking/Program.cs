@@ -2,9 +2,11 @@ using AutoMapper;
 using FoodBooking.Data;
 using FoodBooking.Data.Models.Middleware;
 using FoodBooking.Mapper;
+using FoodBooking.Reponsitory.Image;
 using FoodBooking.Reponsitory.Restaurants;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -45,6 +47,8 @@ builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 
 //Config DI Repo
 builder.Services.AddScoped<IRestaurantRepository, RestaurantRepository>();
+builder.Services.AddScoped<IImageReponsitory, ImageReponsitory>();
+
 
 builder.Services.AddControllers().AddNewtonsoftJson();
 
@@ -62,8 +66,18 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors(MyAllowSpecificOrigins);
-
-
+app.UseStaticFiles(new StaticFileOptions()
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Public")),
+    RequestPath = new PathString("/Public")
+});
+//Enable directory browsing
+app.UseDirectoryBrowser(new DirectoryBrowserOptions
+{
+    FileProvider = new PhysicalFileProvider(
+                Path.Combine(Directory.GetCurrentDirectory(), "Public")),
+    RequestPath = "/Public"
+});
 app.UseAuthorization();
 
 app.MapControllers();

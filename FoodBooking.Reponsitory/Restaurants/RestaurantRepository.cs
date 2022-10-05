@@ -27,6 +27,7 @@ namespace FoodBooking.Reponsitory.Restaurants
                 .OrderByDescending(x => x.Id)
                 .Skip((page - 1) * record)
                 .Take(record)
+                .Include(x=>x.Image)
                 .ToListAsync();
         }
 

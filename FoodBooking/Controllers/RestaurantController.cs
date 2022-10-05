@@ -44,7 +44,7 @@ public class RestaurantController : BaseController
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
 
-    public async Task<IActionResult> Update(UpdateRestaurantRequest createRestaurantsRequest)
+    public async Task<IActionResult> Update([FromForm] UpdateRestaurantRequest createRestaurantsRequest)
     {
         await _mediator.Send(createRestaurantsRequest);
         return Ok();

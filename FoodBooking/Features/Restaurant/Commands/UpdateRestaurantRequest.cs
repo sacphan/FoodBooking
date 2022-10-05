@@ -1,5 +1,7 @@
 ﻿using FoodBooking.Core.Utils;
+using FoodBooking.Data.Entities;
 using FoodBooking.Data.Models.Exceptions;
+using FoodBooking.Reponsitory.Image;
 using FoodBooking.Reponsitory.Restaurants;
 using MediatR;
 using System.ComponentModel.DataAnnotations;
@@ -20,9 +22,15 @@ namespace FoodBooking.Features.Restaurants.Commands
     public class UpdateRestaurantRequestHandler : IRequestHandler<UpdateRestaurantRequest, bool>
     {
         private readonly IRestaurantRepository _restaurantRepository;
-        public UpdateRestaurantRequestHandler(IRestaurantRepository restaurantRepository)
+        private readonly IImageReponsitory _imageReponsitory;
+        private readonly IConfiguration _configuration;
+
+
+        public UpdateRestaurantRequestHandler(IRestaurantRepository restaurantRepository, IImageReponsitory imageReponsitory, IConfiguration configuration)
         {
             _restaurantRepository = restaurantRepository;
+            _imageReponsitory = imageReponsitory;
+            _configuration = configuration;
         }
         public async Task<bool> Handle(UpdateRestaurantRequest request, CancellationToken cancellationToken)
         {
@@ -40,9 +48,28 @@ namespace FoodBooking.Features.Restaurants.Commands
 
                 restaurantExits.Name = request.Name;
                 restaurantExits.Description = request.Description;
+                var filePath = Path.Combine(@$"Public\Images\Restaurant", $"{request.Id}{Path.GetExtension(request.Image.FileName)}");
+                var resultUploadFile = await FileUtils.CreateFile(request.Image, filePath);
+                if (resultUploadFile)
+                {
+                    
+                    if (restaurantExits.ImageId==null)
+                    {
+                        var newImage = new Image()
+                        {
+                            ImageUrl = $@"{_configuration["ApplicationUrl"]}\{filePath}"
+                        };
+                        _imageReponsitory.Create(newImage);
+                        restaurantExits.ImageId = newImage.Id;
+                    }
+                    else
+                    {
+                        var exitsImage =await _imageReponsitory.FindByIdAsync(restaurantExits.ImageId.Value);
+                        exitsImage.ImageUrl = @$"{_configuration["ApplicationUrl"]}\{filePath}";
+                        _imageReponsitory.Update(exitsImage);
+                    }    
 
-                var filePath = Path.Combine(@"App_Data", $"{DateTime.Now:yyyyMMddHHmmss}.pdf");
-                FileUtils.CreateFile(request.Image,)
+                }    
                 _restaurantRepository.Update(restaurantExits);
                 if (await _restaurantRepository.SaveChangesAsync() >= 0)
                 {

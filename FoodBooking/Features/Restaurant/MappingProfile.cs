@@ -11,6 +11,8 @@ namespace FoodBooking.Features.Restaurants
         {
             CreateMap<Restaurant, RestaurantDto>();
 
+            CreateMap<Image, ImageDto>();
+
             CreateMap<CreateRestaurantsRequest, Restaurant>();
 
         }

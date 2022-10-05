@@ -10,8 +10,4 @@
     <ProjectReference Include="..\FoodBooking.Data\FoodBooking.Data.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="File\" />
-  </ItemGroup>
-
 </Project>
