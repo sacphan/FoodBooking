@@ -33,7 +33,7 @@ public class RestaurantController : BaseController
     [HttpPost(Name = "Create")]
     [ProducesResponseType(typeof(GetRestaurantsReponse), (int)HttpStatusCode.Created)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> Create(CreateRestaurantsRequest createRestaurantsRequest)
+    public async Task<IActionResult> Create([FromForm] CreateRestaurantsRequest createRestaurantsRequest)
     {
         await _mediator.Send(createRestaurantsRequest);
         return StatusCode(201);
@@ -50,15 +50,14 @@ public class RestaurantController : BaseController
         return Ok();
     }
 
-    [HttpDelete(Name = "Delete")]
+    [HttpDelete("{id:Guid}")]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
 
-    public async Task<IActionResult> Delete(DeleteRestaurantRequest deleteRestaurantRequest)
+    public async Task<IActionResult> Delete(Guid id)
     {
-        await _mediator.Send(deleteRestaurantRequest);
-        return Ok();
+        return Ok(await _mediator.Send(new DeleteRestaurantRequest() { Id=id}));
     }
 
 

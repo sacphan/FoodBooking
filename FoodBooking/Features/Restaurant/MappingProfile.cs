@@ -13,7 +13,8 @@ namespace FoodBooking.Features.Restaurants
 
             CreateMap<Image, ImageDto>();
 
-            CreateMap<CreateRestaurantsRequest, Restaurant>();
+            CreateMap<CreateRestaurantsRequest, Restaurant>()
+                .ForMember(x => x.Image, opt => opt.Ignore()); ;
 
         }
     }

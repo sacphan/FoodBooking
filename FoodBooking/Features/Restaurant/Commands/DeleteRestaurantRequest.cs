@@ -18,7 +18,7 @@ namespace FoodBooking.Features.Restaurants.Commands
         }
         public async Task<bool> Handle(DeleteRestaurantRequest request, CancellationToken cancellationToken)
         {
-            var restaurantExits = await _restaurantRepository.FindByIdAsync(request.Id);
+                var restaurantExits = await _restaurantRepository.FindByIdAsync(request.Id);
             if (restaurantExits != null)
             {
 
