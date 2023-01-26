@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FoodBooking.Data.Entities;
 using FoodBooking.Features.Restaurants.Commands;
+using FoodBooking.Features.Restaurants.Dto;
 using FoodBooking.Features.Restaurants.Queries;
 
 namespace FoodBooking.Features.Restaurants

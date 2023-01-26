@@ -42,7 +42,7 @@ namespace FoodBooking.Features.Restaurants.Commands
             var restaurantExits = await _restaurantRepository.FindByNameAsync(request.Name);
             if (restaurantExits == null)
             {
-                var requestCreate = _mapper.Map<Restaurant>(request);
+                var requestCreate = _mapper.Map<FoodBooking.Data.Entities.Restaurant>(request);
                 _restaurantRepository.Create(requestCreate);
                 if (request.Image != null)
                 {

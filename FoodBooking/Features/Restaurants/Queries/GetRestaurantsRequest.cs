@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FoodBooking.Data.Entities;
+using FoodBooking.Features.Restaurants.Dto;
 using FoodBooking.Reponsitory.Restaurants;
 using MediatR;
 
@@ -12,20 +13,6 @@ namespace FoodBooking.Features.Restaurants.Queries
         public int Record { get; set; } = 5;
     }
 
-    public class RestaurantDto
-    {
-        public Guid Id { get; set; }
-        public string? Name { get; set; }
-        public string? Description { get; set; }
-        public ImageDto Image { get; set; }
-
-    }
-    public class ImageDto
-    {
-        public Guid Id { get; set; }
-        public string? ImageUrl { get; set; }
-
-    }
     public class GetRestaurantsReponse
     {
         public List<RestaurantDto>? Restaurants { get; set; }

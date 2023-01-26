@@ -13,10 +13,27 @@ public class RestaurantController : BaseController
     {
     }
 
-    [HttpGet(Name = "Search")]
+    [HttpGet("Search")]
     [ProducesResponseType(typeof(GetRestaurantsReponse), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     public async Task<IActionResult> Search([FromQuery] GetRestaurantsRequest getRestaurantsRequest)
+    {
+        try
+        {
+            var result = await _mediator.Send(getRestaurantsRequest);
+            return Ok(result);
+        }
+        catch
+        {
+
+            return NotFound();
+        }
+    }
+
+    [HttpGet(Name = "Get")]
+    [ProducesResponseType(typeof(GetRestaurantByIdReponse), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    public async Task<IActionResult> Get([FromQuery] GetRestaurantByIdRequest getRestaurantsRequest)
     {
         try
         {
