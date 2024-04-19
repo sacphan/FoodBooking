@@ -10,6 +10,8 @@ namespace FoodBooking.Data.Entities
     {
         public Guid Id { get; set; }
         public string ImageUrl { get; set; }
+        public ICollection<Restaurant> Restaurants { get; set; }
+        public ICollection<Product> Products { get; set; }
     }
 
 }

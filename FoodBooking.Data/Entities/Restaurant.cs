@@ -7,6 +7,8 @@
         public string Description { get; set; }
         public string Title { get; set; }
         public Guid? ImageId { get; set; }
-
+        public DateTime CreateDate { get; set; }
+        public ICollection<Product> Products { get; set; }
+        public Image Image { get; set; }
     }
 }

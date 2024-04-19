@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodBooking.Data.Migrations
 {
     [DbContext(typeof(FoodBookingContext))]
-    [Migration("20220724085622_test")]
-    partial class test
+    [Migration("20220724085622_InitDb")]
+    partial class InitDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
