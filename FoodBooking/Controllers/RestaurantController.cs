@@ -7,17 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
 [ApiController]
-[Route("[controller]")]
-public class RestaurantController : ControllerBase
+public class RestaurantController : BaseController
 {
-    private readonly IMediator _mediator;
-
-    public RestaurantController(IMediator mediator)
+    public RestaurantController(IMediator mediator) : base(mediator)
     {
-        _mediator = mediator;
     }
 
-    [HttpGet(Name = "Search")]
+    [HttpGet("Search")]
     [ProducesResponseType(typeof(GetRestaurantsReponse), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     public async Task<IActionResult> Search([FromQuery] GetRestaurantsRequest getRestaurantsRequest)
@@ -34,10 +30,27 @@ public class RestaurantController : ControllerBase
         }
     }
 
+    [HttpGet(Name = "Get")]
+    [ProducesResponseType(typeof(GetRestaurantByIdReponse), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    public async Task<IActionResult> Get([FromQuery] GetRestaurantByIdRequest getRestaurantsRequest)
+    {
+        try
+        {
+            var result = await _mediator.Send(getRestaurantsRequest);
+            return Ok(result);
+        }
+        catch
+        {
+
+            return NotFound();
+        }
+    }
+
     [HttpPost(Name = "Create")]
     [ProducesResponseType(typeof(GetRestaurantsReponse), (int)HttpStatusCode.Created)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> Create(CreateRestaurantsRequest createRestaurantsRequest)
+    public async Task<IActionResult> Create([FromForm] CreateRestaurantsRequest createRestaurantsRequest)
     {
         await _mediator.Send(createRestaurantsRequest);
         return StatusCode(201);
@@ -48,21 +61,20 @@ public class RestaurantController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
 
-    public async Task<IActionResult> Update(UpdateRestaurantRequest createRestaurantsRequest)
+    public async Task<IActionResult> Update([FromForm] UpdateRestaurantRequest createRestaurantsRequest)
     {
         await _mediator.Send(createRestaurantsRequest);
         return Ok();
     }
 
-    [HttpDelete(Name = "Delete")]
+    [HttpDelete("{id:Guid}")]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
 
-    public async Task<IActionResult> Delete(DeleteRestaurantRequest deleteRestaurantRequest)
+    public async Task<IActionResult> Delete(Guid id)
     {
-        await _mediator.Send(deleteRestaurantRequest);
-        return Ok();
+        return Ok(await _mediator.Send(new DeleteRestaurantRequest() { Id=id}));
     }
 
     [HttpPost("CrawlData")]

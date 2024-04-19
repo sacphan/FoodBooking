@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FoodBooking.Data.Entities;
 using FoodBooking.Features.Restaurants.Commands;
+using FoodBooking.Features.Restaurants.Dto;
 using FoodBooking.Features.Restaurants.Queries;
 
 namespace FoodBooking.Features.Restaurants
@@ -11,7 +12,10 @@ namespace FoodBooking.Features.Restaurants
         {
             CreateMap< Restaurant, RestaurantDto>();
 
-            CreateMap<CreateRestaurantsRequest, Restaurant>();
+            CreateMap<Image, ImageDto>();
+
+            CreateMap<CreateRestaurantsRequest, Restaurant>()
+                .ForMember(x => x.Image, opt => opt.Ignore()); ;
 
         }
     }
