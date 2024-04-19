@@ -64,5 +64,16 @@ public class RestaurantController : ControllerBase
         await _mediator.Send(deleteRestaurantRequest);
         return Ok();
     }
+
+    [HttpPost("CrawlData")]
+    [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+
+    public async Task<IActionResult> CrawlData(CrawlDataRequest crawlDataRequest)
+    {
+        await _mediator.Send(crawlDataRequest);
+        return Ok();
+    }
 }
 

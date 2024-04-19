@@ -9,7 +9,7 @@ namespace FoodBooking.Features.Restaurants
     {
         public MappingProfile()
         {
-            CreateMap<Restaurant, RestaurantDto>();
+            CreateMap< Restaurant, RestaurantDto>();
 
             CreateMap<CreateRestaurantsRequest, Restaurant>();
 
