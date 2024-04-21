@@ -3,6 +3,7 @@ using FoodBooking.Data;
 using FoodBooking.Data.Models.Middleware;
 using FoodBooking.Mapper;
 using FoodBooking.Reponsitory.Image;
+using FoodBooking.Reponsitory.Product;
 using FoodBooking.Reponsitory.Restaurants;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -48,6 +49,7 @@ builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 //Config DI Repo
 builder.Services.AddScoped<IRestaurantRepository, RestaurantRepository>();
 builder.Services.AddScoped<IImageReponsitory, ImageReponsitory>();
+builder.Services.AddScoped<IProductReponsitory, ProductReponsitory>();
 
 
 builder.Services.AddControllers().AddNewtonsoftJson();

@@ -1,7 +1,12 @@
-﻿using FoodBooking.Features.Restaurants.Queries;
+﻿using FoodBooking.Data.Entities;
+using FoodBooking.Data.Models.Exceptions;
+using FoodBooking.Features.Restaurants.Queries;
+using FoodBooking.Reponsitory.Product;
+using FoodBooking.Reponsitory.Restaurants;
 using HtmlAgilityPack;
 using MediatR;
 using PuppeteerSharp;
+using System.Net;
 
 namespace FoodBooking.Features.Restaurants.Queries
 {
@@ -17,15 +22,19 @@ namespace FoodBooking.Features.Restaurants.Queries
 
     public class CrawlDataRequestRequestHandler : IRequestHandler<CrawlDataRequest, CrawlDataReponse>
     {
-        public CrawlDataRequestRequestHandler()
+        private readonly IProductReponsitory _productReponsitory;
+        private readonly IRestaurantRepository _restaurantRepository;
+
+        public CrawlDataRequestRequestHandler(IProductReponsitory productReponsitory, IRestaurantRepository restaurantRepository)
         {
-                
+            _productReponsitory = productReponsitory;
+            _restaurantRepository = restaurantRepository;
         }
         public async Task<CrawlDataReponse> Handle(CrawlDataRequest request, CancellationToken cancellationToken)
         {
             var result = new CrawlDataReponse();
             var html = await GetHtmlContentAsync(request.sourceLink);
-            var test = ParseHtml(html);
+            await ExtractDataFromHtml(html);
             return result;
         }
 
@@ -52,31 +61,59 @@ namespace FoodBooking.Features.Restaurants.Queries
 
         }
 
-        private List<string> ParseHtml(string html)
+        private async Task ExtractDataFromHtml(string html)
         {
+            var listProduct = new List<Product>();
+            var restaurant = new Restaurant()
+            {
+                Image = new Image()
+            };
             HtmlDocument htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(html);
 
-            var nodes = htmlDoc.DocumentNode.SelectNodes("//div[contains(@class, 'item-restaurant-row')]");
-            foreach (var node in nodes)
+            var restaurantImageNode = htmlDoc.DocumentNode.SelectSingleNode("//div[contains(@class, 'detail-restaurant-img')]//img");
+            restaurant.Image.ImageUrl = restaurantImageNode != null ? restaurantImageNode.GetAttributeValue("src", string.Empty) : string.Empty;
+            var restaurantNameNode = htmlDoc.DocumentNode.SelectSingleNode("//div[contains(@class, 'detail-restaurant-info')]//h1[contains(@class, 'name-restaurant')]");
+            restaurant.Name = restaurantNameNode != null ? restaurantNameNode.InnerText.Trim() : string.Empty;
+            var restaurantAddress = htmlDoc.DocumentNode.SelectSingleNode("//div[contains(@class, 'detail-restaurant-info')]//div[contains(@class, 'address-restaurant')]");
+            restaurant.Address = restaurantAddress != null ? restaurantAddress.InnerText.Trim() : string.Empty;
+
+            var productNodes = htmlDoc.DocumentNode.SelectNodes("//div[contains(@class, 'item-restaurant-row')]");
+            foreach (var node in productNodes)
             {
-                // Extract image URL from the img element
+                var product = new Product()
+                {
+                    Image = new Image()
+                };
+
                 var imageNode = node.SelectSingleNode(".//div[contains(@class, 'item-restaurant-img')]//img");
-                string imageUrl = imageNode != null ? imageNode.GetAttributeValue("src", string.Empty) : string.Empty;
+                product.Image.ImageUrl = imageNode != null ? imageNode.GetAttributeValue("src", string.Empty) : string.Empty;
 
-                // Extract item name
                 var nameNode = node.SelectSingleNode(".//div[contains(@class, 'item-restaurant-info')]//h2[contains(@class, 'item-restaurant-name')]");
-                string itemName = nameNode != null ? nameNode.InnerText.Trim() : string.Empty;
+                product.Name = nameNode != null ? nameNode.InnerText.Trim() : string.Empty;
 
-                // Extract item description
                 var descNode = node.SelectSingleNode(".//div[contains(@class, 'item-restaurant-info')]//div[contains(@class, 'item-restaurant-desc')]");
-                string itemDescription = descNode != null ? descNode.InnerText.Trim() : string.Empty;
-                Console.WriteLine(node.OuterHtml);
+                product.Description = descNode != null ? descNode.InnerText.Trim() : string.Empty;
+
+                var priceNode = node.SelectSingleNode(".//div[contains(@class, 'product-price')]//div[contains(@class, 'current-price')]");
+                product.Price = priceNode != null ? double.Parse(priceNode.InnerText.Trim()) : 0;
+                
+                listProduct.Add(product);
             }
-            List<string> wikiLink = new List<string>();
+
+            _restaurantRepository.Create(restaurant);
+            foreach (var product in listProduct)
+            {
+                product.Restaurant = restaurant;
+                _productReponsitory.Create(product);
+            }
+
+            if (await _restaurantRepository.SaveChangesAsync() < 0)
+            {
+                throw new MediatorException(ExceptionType.Error, "Error update this restaurant");
+            }
 
 
-            return wikiLink;
         }
 
     }
