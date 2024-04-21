@@ -36,7 +36,7 @@ builder.Services.AddDbContext<FoodBookingContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("FoodBooking")));
 
 //Config AutoMapper
-builder.Services.AddScoped<IMapper>(sp =>
+ builder.Services.AddScoped<IMapper>(sp =>
 {
     return new Mapper(AutoMapperConfig.RegisterMappings());
 });

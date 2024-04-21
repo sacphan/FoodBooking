@@ -12,10 +12,10 @@ namespace FoodBooking.Features.Restaurants.Commands
     public class CreateRestaurantsRequest : IRequest<bool>
     {
         [Required]
-        public string? Name { get; set; }
-        public string? Description { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
         [Required]
-        public string? Title { get; set; }
+        public string Title { get; set; }
         public Guid? ImageId { get; set; }
         public IFormFile? Image { get; set; }
 
