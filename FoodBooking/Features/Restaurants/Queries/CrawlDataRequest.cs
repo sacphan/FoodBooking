@@ -34,17 +34,6 @@ namespace FoodBooking.Features.Restaurants.Queries
         public async Task<CrawlDataReponse> Handle(CrawlDataRequest request, CancellationToken cancellationToken)
         {
             var result = new CrawlDataReponse();
-            HttpClient client = new HttpClient();
-            try
-            {
-                var response = await client.GetStringAsync(request.sourceLink);
-
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
             var html = await GetHtmlContentAsync(request.sourceLink);
             await ExtractDataFromHtml(html, request.sourceLink);
             return result;
@@ -58,7 +47,7 @@ namespace FoodBooking.Features.Restaurants.Queries
             // Launch a headless browser
             using var browser = await Puppeteer.LaunchAsync(new LaunchOptions
             {
-                Headless = true
+                Headless = false
             });
 
             // Open a new page/tab
@@ -119,7 +108,7 @@ namespace FoodBooking.Features.Restaurants.Queries
             var productNodes = htmlDoc.DocumentNode.SelectNodes("//div[contains(@class, 'menuItemWrapper___1xIAB')]");
             foreach (var node in productNodes)
             {
-                var disableNode = node.SelectSingleNode(".//div[contains(@class, 'menuItem--disable___3RX8D')]//img");
+                var disableNode = node.SelectSingleNode(".//div[contains(@class, 'menuItem--disable___3RX8D')]");
                 if (disableNode==null)
                 {
                     var product = new Product()
@@ -155,7 +144,7 @@ namespace FoodBooking.Features.Restaurants.Queries
             };
             HtmlDocument htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(html);
-            if (sourceLink.Contains("Shoppeefood"))
+            if (sourceLink.ToLower().Contains("shopeefood"))
             {
                 ExtractDataForShoppeeFood(htmlDoc, listProduct, restaurant);
             }    
