@@ -14,7 +14,7 @@ namespace FoodBooking.Reponsitory.Base
             table = _context.Set<T>();
         }
 
-        public async Task<T> FindByIdAsync(Guid id)
+        public async Task<T?> FindByIdAsync(Guid id)
         {
             return await table.FindAsync(id);
         }

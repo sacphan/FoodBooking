@@ -13,7 +13,7 @@ using System.Threading.Tasks;
         public Guid? ImageId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public double Price { get; set; }
+        public decimal Price { get; set; }
         public int Inventory { get; set; }
         public DateTime CreateDate { get; set; }
         public Restaurant Restaurant { get; set; }

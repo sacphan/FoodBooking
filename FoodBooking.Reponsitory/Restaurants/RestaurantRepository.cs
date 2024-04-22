@@ -17,6 +17,11 @@ namespace FoodBooking.Reponsitory.Restaurants
             return await _context.Restaurants.FirstOrDefaultAsync(r => r.Name == name);
         }
 
+        public async Task<Restaurant?> FindByLinkCrawlAsync(string linkCrawl)
+        {
+            return await _context.Restaurants.Include(r=>r.Image).FirstOrDefaultAsync(r => r.LinkCrawl == linkCrawl);
+        }
+
         public async Task<List<Restaurant>> Search(string keyword, int page, int record)
         {
             var keySeach = keyword.ToLower();

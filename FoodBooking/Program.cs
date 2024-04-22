@@ -3,7 +3,7 @@ using FoodBooking.Data;
 using FoodBooking.Data.Models.Middleware;
 using FoodBooking.Mapper;
 using FoodBooking.Reponsitory.Image;
-using FoodBooking.Reponsitory.Product;
+using FoodBooking.Reponsitory.Products;
 using FoodBooking.Reponsitory.Restaurants;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

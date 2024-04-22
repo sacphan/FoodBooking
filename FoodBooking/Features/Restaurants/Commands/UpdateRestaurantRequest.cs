@@ -28,14 +28,12 @@ namespace FoodBooking.Features.Restaurants.Commands
         private readonly IRestaurantRepository _restaurantRepository;
         private readonly IImageReponsitory _imageReponsitory;
         private readonly IConfiguration _configuration;
-        private readonly FoodBookingContext _context;
         
-        public UpdateRestaurantRequestHandler(IRestaurantRepository restaurantRepository, IImageReponsitory imageReponsitory, IConfiguration configuration, FoodBookingContext context)
+        public UpdateRestaurantRequestHandler(IRestaurantRepository restaurantRepository, IImageReponsitory imageReponsitory, IConfiguration configuration)
         {
             _restaurantRepository = restaurantRepository;
             _imageReponsitory = imageReponsitory;
             _configuration = configuration;
-            _context = context;
         }
         public async Task<bool> Handle(UpdateRestaurantRequest request, CancellationToken cancellationToken)
         {

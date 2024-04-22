@@ -7,6 +7,7 @@ namespace FoodBooking.Reponsitory.Restaurants
     {
         Task<List<Restaurant>> Search(string keyword, int page, int record);
         Task<Restaurant?> FindByNameAsync(string name);
+        Task<Restaurant?> FindByLinkCrawlAsync(string linkCrawl);
         Task<int> Count(string keyword, int page, int record);
     }
 }
