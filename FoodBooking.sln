@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodBooking.Data", "FoodBoo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodBooking.Reponsitory", "FoodBooking.Reponsitory\FoodBooking.Reponsitory.csproj", "{60A3918D-2EA3-479F-A9E2-728FCC39B575}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodBooking.Core", "FoodBooking.Core\FoodBooking.Core.csproj", "{F5C86A60-594C-4191-9073-B388B47D996F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodBooking.Core", "FoodBooking.Core\FoodBooking.Core.csproj", "{F5C86A60-594C-4191-9073-B388B47D996F}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "FoodBooking.UI", "FoodBooking.UI\FoodBooking.UI.esproj", "{3371D00B-F4AF-44A1-BF2E-75DAEF61C84D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,12 @@ Global
 		{F5C86A60-594C-4191-9073-B388B47D996F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5C86A60-594C-4191-9073-B388B47D996F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5C86A60-594C-4191-9073-B388B47D996F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3371D00B-F4AF-44A1-BF2E-75DAEF61C84D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3371D00B-F4AF-44A1-BF2E-75DAEF61C84D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3371D00B-F4AF-44A1-BF2E-75DAEF61C84D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{3371D00B-F4AF-44A1-BF2E-75DAEF61C84D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3371D00B-F4AF-44A1-BF2E-75DAEF61C84D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3371D00B-F4AF-44A1-BF2E-75DAEF61C84D}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
