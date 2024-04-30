@@ -1,4 +1,5 @@
 ﻿using FoodBooking.Data.Entities;
+using FoodBooking.Data.Models.Enums;
 using FoodBooking.Data.Models.Exceptions;
 using FoodBooking.Features.Restaurants.Queries;
 using FoodBooking.Reponsitory.Products;
@@ -73,7 +74,7 @@ namespace FoodBooking.Features.Restaurants.Queries
             restaurant.Name = restaurantNameNode != null ? restaurantNameNode.InnerText.Trim() : string.Empty;
             var restaurantAddress = htmlDoc.DocumentNode.SelectSingleNode("//div[contains(@class, 'detail-restaurant-info')]//div[contains(@class, 'address-restaurant')]");
             restaurant.Address = restaurantAddress != null ? restaurantAddress.InnerText.Trim() : string.Empty;
-
+            restaurant.SourceCrawlId = (int)ESourceCrawl.Shoppe;
             foreach (var node in productNodes)
             {
                 var product = new Product()
@@ -104,6 +105,7 @@ namespace FoodBooking.Features.Restaurants.Queries
 
             var restaurantNameNode = htmlDoc.DocumentNode.SelectSingleNode("//div[contains(@class, 'merchantInfo___1GGGp')]//h1[contains(@class, 'name___1Ls94')]");
             restaurant.Name = restaurantNameNode != null ? restaurantNameNode.InnerText.Trim() : string.Empty;
+            restaurant.SourceCrawlId = (int)ESourceCrawl.Grab;
 
             var productNodes = htmlDoc.DocumentNode.SelectNodes("//div[contains(@class, 'menuItemWrapper___1xIAB')]");
             foreach (var node in productNodes)

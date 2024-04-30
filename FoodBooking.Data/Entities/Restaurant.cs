@@ -10,6 +10,7 @@
         public Guid? ImageId { get; set; }
         public DateTime CreateDate { get; set; }
         public string LinkCrawl { get; set; }
+        public int SourceCrawlId { get; set; }
         public Image Image { get; set; }
         public ICollection<Product> Products { get; set; }
     }

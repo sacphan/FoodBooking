@@ -23,7 +23,7 @@ public class RestaurantController : BaseController
             var result = await _mediator.Send(getRestaurantsRequest);
             return Ok(result);
         }
-        catch
+        catch (Exception ex) 
         {
 
             return NotFound();
