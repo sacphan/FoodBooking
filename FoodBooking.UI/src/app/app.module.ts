@@ -6,20 +6,23 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import {MatSidenavModule} from '@angular/material/sidenav';
-import { LayoutModule } from './layout/layout.module';
+import { LayoutModule } from './pages/layout/layout.module';
 import {MatListModule} from '@angular/material/list'; 
+import { RestauranModule } from './pages/restaurant/restaurant.module';
+import { ServiceModule } from './services/service.module';
 
 @NgModule({
   declarations: [
     AppComponent
-
   ],
   imports: [
     BrowserModule, HttpClientModule,
     AppRoutingModule,
     MatSidenavModule,
     LayoutModule,
-    MatListModule
+    MatListModule,
+    RestauranModule,
+    ServiceModule
   ],
   providers: [
     provideAnimationsAsync()

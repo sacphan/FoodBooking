@@ -1,0 +1,17 @@
+<div class="cards-container">
+    <mat-card *ngFor="let restaurant of restaurants" class="item-card">
+        <mat-card-header>
+            <mat-card-title-group>
+                <mat-card-title [innerHTML]="restaurant.name"></mat-card-title>
+                <mat-card-subtitle>{{restaurant.brand}}</mat-card-subtitle>
+                <img mat-card-sm-image src={{restaurant.image.imageUrl}}>
+            </mat-card-title-group>
+        </mat-card-header>
+        <br>
+        <mat-card-content [innerHTML]="restaurant.address">
+        </mat-card-content>
+        <mat-card-actions>
+            <button  mat-icon-button color="accent"><mat-icon>door</mat-icon></button>
+        </mat-card-actions>
+    </mat-card>
+</div>
