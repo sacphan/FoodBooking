@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { RestaurantService } from '../../../services/restaurant.service';
 import { IRestaurant, ESourceCrawl } from '../../../models/restaurant';
+import { ActivatedRoute } from '@angular/router';
+import { Guid } from 'guid-typescript';
+import { MatDialog } from '@angular/material/dialog';
+import { CartDialogComponent } from '../../component/cart/cart-dialog.component';
 
 @Component({
   selector: 'app-restaurant-detail',
@@ -8,21 +12,34 @@ import { IRestaurant, ESourceCrawl } from '../../../models/restaurant';
   styleUrl: './restaurant-detail.component.scss'
 })
 export class RestaurantDetailComponent {
-  keyWord:string="";
-  pageActive:number = 1;
-  restaurants:IRestaurant[]=[];
-  totalPage:number= 1;
-  constructor( private _restaurantService:RestaurantService) 
+  restaurant:IRestaurant  = {
+    name:""
+  } as IRestaurant;
+  restaurantId: Guid  = Guid.createEmpty();
+
+  constructor( private _restaurantService:RestaurantService,private route: ActivatedRoute,private dialog: MatDialog) 
   {    
   }
 
   ngOnInit() {
-    this._restaurantService.getRestaurants(this.keyWord,this.pageActive,100).subscribe(result => {
-      this.restaurants = result.restaurants;
-      this.restaurants.forEach(restaurant => {
-        restaurant.brand = ESourceCrawl[restaurant.sourceCrawlId];
-      });
-      this.pageActive = result.page;
-      this.totalPage = result.totalPage;
-    });  }
+    this.route.params.subscribe(params => {
+      this.restaurantId = params['id'];
+      this._restaurantService.getRestaurantDetailById(this.restaurantId).subscribe(result => {
+        this.restaurant = result;
+        this.restaurant.brand = ESourceCrawl[result.sourceCrawlId];
+        
+      });  
+    });
+  }
+
+  openCartDialog() {
+    const dialogRef = this.dialog.open(CartDialogComponent,{
+      data: {title:"123"}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+    
 }

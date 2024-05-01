@@ -10,6 +10,7 @@ import { LayoutModule } from './pages/layout/layout.module';
 import {MatListModule} from '@angular/material/list'; 
 import { RestauranModule } from './pages/restaurant/restaurant.module';
 import { ServiceModule } from './services/service.module';
+import { CartModule } from './pages/component/component.module';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ServiceModule } from './services/service.module';
     LayoutModule,
     MatListModule,
     RestauranModule,
-    ServiceModule
+    ServiceModule,
+    CartModule
   ],
   providers: [
     provideAnimationsAsync()

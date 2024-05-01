@@ -16,6 +16,8 @@ export class RestaurantComponent {
   {    
   }
 
+
+
   ngOnInit() {
     this._restaurantService.getRestaurants(this.keyWord,this.pageActive,100).subscribe(result => {
       this.restaurants = result.restaurants;

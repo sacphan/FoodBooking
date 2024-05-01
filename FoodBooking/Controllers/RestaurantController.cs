@@ -30,22 +30,13 @@ public class RestaurantController : BaseController
         }
     }
 
-    [HttpGet(Name = "Get")]
+    [HttpGet("{id:Guid}")]
     [ProducesResponseType(typeof(GetRestaurantByIdReponse), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> Get([FromQuery] GetRestaurantByIdRequest getRestaurantsRequest)
+    public async Task<IActionResult> Get(Guid id)
     {
-        try
-        {
-            var result = await _mediator.Send(getRestaurantsRequest);
-            return Ok(result);
-        }
-
-        catch (Exception ex) 
-        {
-
-            return NotFound();
-        }
+        var result = await _mediator.Send(new GetRestaurantByIdRequest {Id = id });
+        return Ok(result.Restaurant);
     }
 
     [HttpPost(Name = "Create")]

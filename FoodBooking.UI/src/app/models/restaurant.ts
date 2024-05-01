@@ -1,5 +1,6 @@
 import { Guid } from "guid-typescript";
 import { IImage } from "./image-model";
+import { IProduct } from "./product-model";
 
 export interface IRestaurant
 {
@@ -12,7 +13,9 @@ export interface IRestaurant
     address:string,
     linkCrawl: string,
     sourceCrawlId: number,
-    brand: string
+    brand: string,
+    products: IProduct[]
+
 }
 
 export interface IRestaurantsReponse

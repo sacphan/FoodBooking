@@ -27,7 +27,7 @@ namespace FoodBooking.Features.Restaurants.Queries
         }
         public async Task<GetRestaurantByIdReponse> Handle(GetRestaurantByIdRequest request, CancellationToken cancellationToken)
         {
-            var restaurant = _mapper.Map<RestaurantDto>(await _restaurantRepository.FindByIdAsync(request.Id));
+            var restaurant = _mapper.Map<RestaurantDto>(await _restaurantRepository.FindDetailByIdAsync(request.Id));
             return new GetRestaurantByIdReponse() {Restaurant = restaurant };
         }
     }

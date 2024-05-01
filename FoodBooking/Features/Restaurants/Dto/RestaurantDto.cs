@@ -13,7 +13,7 @@ namespace FoodBooking.Features.Restaurants.Dto
         public string? Address { get; set; }
         public string? LinkCrawl { get; set; }
         public int SourceCrawlId { get; set; }
-
+        public List<ProductDto>? Products { get; set; }
 
     }
 }

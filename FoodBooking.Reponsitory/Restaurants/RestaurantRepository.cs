@@ -22,6 +22,14 @@ namespace FoodBooking.Reponsitory.Restaurants
             return await _context.Restaurants.Include(r=>r.Image).FirstOrDefaultAsync(r => r.LinkCrawl == linkCrawl);
         }
 
+        public async Task<Restaurant?> FindDetailByIdAsync(Guid id)
+        {
+            return await _context.Restaurants
+                .Include(r => r.Image)
+                .Include(r => r.Products).ThenInclude(p=>p.Image)
+                .FirstOrDefaultAsync(r=>r.Id == id);
+        }
+
         public async Task<List<Restaurant>> Search(string keyword, int page, int record)
         {
             var keySeach = keyword.ToLower();
@@ -29,7 +37,7 @@ namespace FoodBooking.Reponsitory.Restaurants
                 .Where(r => r.Name.ToLower().Contains(keySeach)
                 || r.Description.ToLower().Contains(keySeach)
                 || keyword == null)
-                .OrderByDescending(x => x.Id)
+                .OrderByDescending(x => x.CreateDate)
                 .Skip((page - 1) * record)
                 .Take(record)
                 .Include(x=>x.Image)

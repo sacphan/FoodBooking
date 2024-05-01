@@ -1,9 +1,20 @@
+.restaurant-detail
+{
+  padding-top: 40px;
+  padding-bottom: 40px;
+  max-width: 900px;
+  margin: 0 auto;
+  box-shadow: none;
+  text-align:left;
+  font-size: 15px;
+
+}
+
 .item-card {
   width: 400px;
   margin-bottom: 8px;
-}
 
-/* list-cards.component.css */
+}
 
 .cards-container {
   display: flex;
@@ -16,6 +27,7 @@
 .mat-card {
   flex: 1 0 300px; /* Flex-grow, flex-shrink, flex-basis */
   max-width: calc(50% - 20px); /* To maintain gap between items */
+  width: 400px;
 }
 
 .mat-mdc-card-title
@@ -26,10 +38,5 @@
 .mat-mdc-card-content
 {
   font-size: 12px;
-  height: 40px;
-}
-
-.mat-mdc-card:hover {
-  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
-  cursor: pointer;
+  min-height: 40px;
 }
