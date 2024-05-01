@@ -26,6 +26,6 @@ export interface IRestaurantsReponse
 
 export enum ESourceCrawl {
     None,
-    Grab,
-    Shoppe
+    Shoppe,
+    Grab
 }
